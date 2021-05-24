@@ -1,10 +1,14 @@
 {% load static %}
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <style>
 
 	body{
-		background-color: #638CB8;
+		background: #2C3E50;  /* fallback for old browsers */
+		background: -webkit-linear-gradient(to left, #4CA1AF, #2C3E50);  /* Chrome 10-25, Safari 5.1-6 */
+		background: linear-gradient(to left, #4CA1AF, #2C3E50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 	}
 
 	input{
@@ -22,17 +26,10 @@
 		background-color: #6BA3E8;
 	}
 
-	.center-column{
-		width:600px;
-		margin: 20px auto;
-		padding:20px;
-		background-color: #fff;
-		border-radius: 3px;
-		box-shadow: 6px 2px 30px 0px rgba(0,0,0,0.75);
-	}
 
-	.item-row{
-		background-color: #906abd;
+
+	.card-body{
+		background-color: #6FB98F;
 		margin: 10px;
 		padding: 20px;
 		border-radius: 3px;
@@ -40,10 +37,14 @@
 		font-size: 16px;
 		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
 	}
-
-	.btn-danger{
-		background-color: #ffae19;
-		border-color: #e59400;
+	#tasks{
+		background-color: #2C7873;
+		margin: 10px;
+		padding: 20px;
+		border-radius: 10px;
+		color: #fff;
+		font-size: 16px;
+		box-shadow: 0px -1px 10px -4px rgba(0,0,0,0.75);
 	}
 
  	 #hello-msg{
@@ -52,33 +53,71 @@
 		margin-right : 20px;
 	}
 
+	#logout{
+			float : right;
+	}
+
+
+
 </style>
 
 
 <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-<div class="center-column">
-	<h4>Hi, {{user.username}}</h4>
-	<a class="btn btn-sm btn-info" href="{% url 'logout' %}">Logout</a>
-	<form method="POST" action="">
-		{% csrf_token %}
-		{{form.title}}
-		<input class="btn btn-info" type="submit" value="Create Task">
-	</form>
 
-	<div class="todo-list">
 
-	{% for task in tasks %}
-		<div class="item-row">
+<br>
+<br>
+<div class="container">
+    <div class="card-deck">
+        <div class="card card1 mx-auto pt-10 border-0" style="width: 18rem;">
+          <div class="card-body" id="tasks">
+			  <div style="text-align:RIGHT">
+            		<h3 class="card-title">Hi, {{user.username}} :) <a class="btn btn-sm btn-danger" href="{% url 'logout' %}">Logout</a></h3> <br>
+			  </div>
+				<form method="POST" action="">
+					{% csrf_token %}
+					<div class = "col" style="text-align:center">
+						{{form.title}}
+						<input class="btn btn-info" type="submit" value="Add Task" style="max-width : 10rem;">
+					</div>
+				</form>
+          </div>
+        </div>
+    </div>
+</div>
 
-			<a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a>
-			<a class="btn btn-sm btn-danger" href="{% url 'delete' task.id %}">Delete</a>
+<br><br>
+<div class="container">
+	<div class="card-deck">
 
-			{% if task.complete == True %}
-			<strike>{{task.title}}</strike>
-			{% else %}
-			<span>{{task.title}}</span>
-			{% endif %}
-		</div>
-	{% endfor %}
+			<div class="card mx-auto border-0" style="width: 18rem;">
+				{% for task in tasks %}
+				<div class="card-body" class="list" >
+					{% if task.complete == True %}
+					<strike>{{task.title}}</strike>
+					{% else %}
+					<span>{{task.title}}</span>
+					{% endif %}
+					<br><br>
+
+					<a class="btn btn-sm btn-info" href="{% url 'update_task' task.id %}">Update</a>&nbsp;&nbsp;&nbsp;
+					<a class="btn btn-sm btn-danger" href="{% url 'delete' task.id %}">Delete</a>
+
+
+
+				</div>
+				{% endfor %}
+			</div>
+
 	</div>
 </div>
+<BR><BR><BR>
+
+
+
+
+
+
+
+
+

@@ -8,3 +8,9 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
+
+
+class UpdateForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['title', 'complete']
